@@ -6,6 +6,16 @@
   <title>Stylist Avenue</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    .scroll-fade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+.scroll-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
     * { box-sizing: border-box; }
     body, html {
       margin: 0;
@@ -140,7 +150,8 @@
   </section>
 
   <section id="about">
-    <div class="section-title">About Us</div>
+    <section id="about" class="scroll-fade">
+ <div class="section-title">About Us</div>
     <p style="color:white; max-width:700px; text-align:center; background-color:rgba(0,0,0,0.5); padding:20px; border-radius:10px;">
       Stylist Avenue is your go-to destination for unique, street-inspired fashion. Our mission is to bring style, quality, and confidence to everyone, everywhere.
     </p>
@@ -193,6 +204,7 @@
       document.body.style.backgroundImage = `url('${sectionBgImages[currentBg]}')`;
       currentBg = (currentBg + 1) % sectionBgImages.length;
     }, 7000);
+    document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
