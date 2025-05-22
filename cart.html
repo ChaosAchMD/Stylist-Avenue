@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Winkelwagen | Stylist Avenue</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .cart-item img {
+      width: 100px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info {
+      flex: 1;
+      margin-left: 1rem;
+    }
+    .actions {
+      text-align: right;
+    }
+    button {
+      padding: 5px 10px;
+      border: none;
+      background: #333;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛍️ Jouw Winkelmandje</h1>
+  <div id="cart-container"></div>
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+      const container = document.getElementById('cart-container');
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p>Je winkelwagen is leeg.</p>';
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="info">
+            <h3>${item.name}</h3>
+            <p>Prijs: €${item.price}</p>
+            <p>Aantal: <input type="number" min="1" value="${item.quantity}" data-index="${index}" style="width: 50px;" /></p>
+          </div>
+          <div class="actions">
+            <button onclick="removeItem(${index})">Verwijder</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const i = e.target.dataset.index;
+          cart[i].quantity = parseInt(e.target.value);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart(); // update UI
+        });
+      });
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
