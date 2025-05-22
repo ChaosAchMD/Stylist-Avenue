@@ -6,17 +6,12 @@
   <title>Stylist Avenue</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    * { box-sizing: border-box; }
     body, html {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       scroll-behavior: smooth;
-    }
-    header {
-      background: url('images/bg1.jpg') center/cover fixed;
-      color: white;
-      padding: 100px 20px;
-      text-align: center;
-      font-size: 42px;
+      overflow-x: hidden;
     }
     nav {
       background-color: #222;
@@ -44,17 +39,24 @@
       justify-content: center;
       align-items: center;
       padding: 60px 20px;
-      background-attachment: fixed;
       background-size: cover;
       background-position: center;
+      transition: background-image 2s ease-in-out;
     }
-    .shop, .page {
+    .section-title {
+      font-size: 32px;
+      color: white;
+      background-color: rgba(0,0,0,0.5);
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    .shop {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      padding: 40px;
       max-width: 1200px;
-      margin: auto;
+      width: 100%;
     }
     .item {
       background-color: white;
@@ -97,16 +99,14 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
       z-index: 10;
     }
-    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <header>Stylist Avenue</header>
 
   <nav>
-    <a href="#shop" onclick="showPage('shop')">Shop</a>
-    <a href="#about" onclick="showPage('about')">About Us</a>
-    <a href="#contact" onclick="showPage('contact')">Contact</a>
+    <a href="#shop">Shop</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
   </nav>
 
   <div id="cart">
@@ -115,7 +115,8 @@
     <button onclick="checkout()">Checkout</button>
   </div>
 
-  <section id="shop" style="background-image: url('images/bg2.jpg');">
+  <section id="shop">
+    <div class="section-title">Shop Our Collection</div>
     <div class="shop">
       <div class="item">
         <img src="images/shirt1.jpg" alt="Shirt">
@@ -138,46 +139,35 @@
     </div>
   </section>
 
-  <section id="about" class="page hidden" style="background-image: url('images/bg3.jpg');">
-    <div style="grid-column: 1 / -1; text-align: center;">
-      <h2>About Us</h2>
-      <p>Stylist Avenue is your go-to destination for unique, street-inspired fashion. Our mission is to bring style, quality, and confidence to everyone, everywhere.</p>
-    </div>
+  <section id="about">
+    <div class="section-title">About Us</div>
+    <p style="color:white; max-width:700px; text-align:center; background-color:rgba(0,0,0,0.5); padding:20px; border-radius:10px;">
+      Stylist Avenue is your go-to destination for unique, street-inspired fashion. Our mission is to bring style, quality, and confidence to everyone, everywhere.
+    </p>
   </section>
 
-  <section id="contact" class="page hidden" style="background-image: url('images/bg4.jpg');">
-    <div style="grid-column: 1 / -1; text-align: center;">
-      <h2>Contact Us</h2>
-      <p>Email: support@stylistavenue.com</p>
-      <p>Instagram: @stylist.avenue</p>
-      <p>Phone: +32 456 789 123</p>
-    </div>
+  <section id="contact">
+    <div class="section-title">Contact Us</div>
+    <p style="color:white; background-color:rgba(0,0,0,0.5); padding:20px; border-radius:10px;">
+      Email: support@stylistavenue.com<br>
+      Instagram: @stylist_avenue<br>
+    </p>
   </section>
 
   <script>
     let cart = [];
-
     function addToCart(product, price) {
       cart.push({ product, price });
       updateCart();
     }
-
     function updateCart() {
       const count = cart.length;
       const total = cart.reduce((sum, item) => sum + item.price, 0);
       document.getElementById('cart-count').innerText = count;
       document.getElementById('cart-total').innerText = `€${total.toFixed(2)}`;
     }
-
     function checkout() {
       alert("Betaalmethode toevoegen zoals Stripe nodig om af te rekenen.");
-    }
-
-    function showPage(pageId) {
-      document.getElementById('shop').classList.add('hidden');
-      document.getElementById('about').classList.add('hidden');
-      document.getElementById('contact').classList.add('hidden');
-      document.getElementById(pageId).classList.remove('hidden');
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -189,6 +179,17 @@
     }, { threshold: 0.3 });
 
     document.querySelectorAll('.item').forEach(el => observer.observe(el));
+
+    const sectionBgImages = [
+      'images/bg1.jpg',
+      'images/bg2.jpg',
+      'images/bg3.jpg'
+    ];
+    let currentBg = 0;
+    setInterval(() => {
+      document.body.style.backgroundImage = `url('${sectionBgImages[currentBg]}')`;
+      currentBg = (currentBg + 1) % sectionBgImages.length;
+    }, 7000);
   </script>
 </body>
 </html>
