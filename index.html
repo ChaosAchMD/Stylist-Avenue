@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stylist Avenue</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #111;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 32px;
+      letter-spacing: 2px;
+    }
+
+    .shop {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .item {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .item h3 {
+      margin: 10px 0;
+    }
+
+    .item p {
+      font-weight: bold;
+      color: #444;
+    }
+
+    .item button {
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      border-radius: 5px;
+    }
+
+    .item button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>Stylist Avenue</header>
+
+  <div class="shop">
+    <div class="item">
+      <img src="images/shirt1.jpg" alt="Shirt 1">
+      <h3>Urban Tee</h3>
+      <p>€29.99</p>
+      <button>Add to Cart</button>
+    </div>
+    <div class="item">
+      <img src="images/hoodie1.jpg" alt="Hoodie 1">
+      <h3>Signature Hoodie</h3>
+      <p>€59.99</p>
+      <button>Add to Cart</button>
+    </div>
+    <div class="item">
+      <img src="images/cap1.jpg" alt="Cap 1">
+      <h3>Snapback Cap</h3>
+      <p>€19.99</p>
+      <button>Add to Cart</button>
+    </div>
+  </div>
+</body>
+</html>
