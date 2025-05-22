@@ -2,125 +2,185 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Winkelwagen | Stylist Avenue</title>
   <style>
-    <button onclick="window.location.href='index.html'" style="margin-bottom: 20px; padding: 8px 16px; cursor: pointer;">
-  ← Terug naar menu
-</button>
-
     body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-      background: #f9f9f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f2f5;
+      color: #333;
     }
-    h1 {
-      text-align: center;
-    }
-    .cart-item {
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 25px;
+    }
+    button, a.button {
+      padding: 10px 22px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button.back {
+      background-color: #6c757d;
+    }
+    button.back:hover {
+      background-color: #5a6268;
+    }
+    button.checkout {
+      background-color: #007bff;
+    }
+    button.checkout:hover {
+      background-color: #0056b3;
+    }
+    #cart-container {
       background: white;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
     .cart-item img {
       width: 100px;
-      height: auto;
+      height: 100px;
+      object-fit: contain;
       border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-right: 20px;
+      background: #fff;
     }
-    .info {
-      flex: 1;
-      margin-left: 1rem;
+    .cart-item-info {
+      flex-grow: 1;
     }
-    .actions {
-      text-align: right;
-    }
-    button {
-      padding: 5px 10px;
-      border: none;
-      background: #333;
-      color: white;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    button:hover {
-      background: #555;
-    }
-    .total {
-      text-align: right;
+    .cart-item-info h3 {
+      margin: 0 0 8px 0;
+      font-weight: 700;
       font-size: 1.2rem;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
     }
-    .checkout {
-      text-align: right;
-    }
-    .checkout button {
-      background-color: #1e90ff;
+    .cart-item-info p {
+      margin: 4px 0;
       font-size: 1rem;
-      padding: 10px 20px;
+      color: #555;
     }
-    .checkout button:hover {
-      background-color: #0f75d1;
+    .cart-item-info input[type="number"] {
+      width: 55px;
+      padding: 5px 8px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .cart-item button {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .cart-item button:hover {
+      background: #b52b3a;
+    }
+    #total {
+      max-width: 800px;
+      margin: 20px auto 0 auto;
+      font-weight: 700;
+      font-size: 1.4rem;
+      text-align: right;
+      color: #222;
+      user-select: none;
     }
   </style>
 </head>
 <body>
-  <h1>🛍️ Jouw Winkelmandje</h1>
-  <div id="cart-container"></div>
-  <div class="total" id="cart-total"></div>
-  <div class="checkout" id="checkout-section"></div>
+  <header>
+    <button class="back" onclick="window.location.href='index.html'">
+      ← Terug naar menu
+    </button>
+    <button class="checkout" onclick="checkout()">
+      🛒 Afrekenen
+    </button>
+  </header>
+
+  <div id="cart-container">
+    <!-- Producten worden hier geladen -->
+  </div>
+  <div id="total"></div>
 
   <script>
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     function renderCart() {
       const container = document.getElementById('cart-container');
-      const totalEl = document.getElementById('cart-total');
-      const checkoutEl = document.getElementById('checkout-section');
+      const totalEl = document.getElementById('total');
       container.innerHTML = '';
-      totalEl.innerHTML = '';
-      checkoutEl.innerHTML = '';
 
       if (cart.length === 0) {
         container.innerHTML = '<p>Je winkelwagen is leeg.</p>';
+        totalEl.textContent = '';
         return;
       }
 
       let total = 0;
-
-      cart.forEach((item, index) => {
+      cart.forEach((item, i) => {
         total += item.price * item.quantity;
 
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-        div.innerHTML = `
-          <img src="${item.image}" alt="${item.name}">
-          <div class="info">
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
+        itemDiv.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" />
+          <div class="cart-item-info">
             <h3>${item.name}</h3>
-            <p>Prijs: €${item.price.toFixed(2)}</p>
-            <p>Aantal: <input type="number" min="1" value="${item.quantity}" data-index="${index}" style="width: 50px;" /></p>
+            <p>Prijs per stuk: €${item.price.toFixed(2)}</p>
+            <p>
+              Aantal: 
+              <input type="number" min="1" value="${item.quantity}" data-index="${i}">
+            </p>
           </div>
-          <div class="actions">
-            <button onclick="removeItem(${index})">Verwijder</button>
-          </div>
+          <button onclick="removeItem(${i})" aria-label="Verwijder ${item.name}">🗑️</button>
         `;
-        container.appendChild(div);
+
+        container.appendChild(itemDiv);
       });
 
-      totalEl.innerHTML = `<strong>Totaal: €${total.toFixed(2)}</strong>`;
-      checkoutEl.innerHTML = `<button onclick="checkout()">Afrekenen</button>`;
+      totalEl.textContent = `Totaal: €${total.toFixed(2)}`;
 
+      // Luister naar aantal wijzigingen
       document.querySelectorAll('input[type="number"]').forEach(input => {
-        input.addEventListener('change', (e) => {
-          const i = e.target.dataset.index;
-          cart[i].quantity = parseInt(e.target.value);
+        input.addEventListener('change', e => {
+          const idx = e.target.dataset.index;
+          let val = parseInt(e.target.value);
+          if (isNaN(val) || val < 1) val = 1;
+          cart[idx].quantity = val;
           localStorage.setItem('cart', JSON.stringify(cart));
-          renderCart(); // update UI
+          renderCart();
         });
       });
     }
@@ -132,13 +192,33 @@
     }
 
     function checkout() {
-      alert("Bedankt voor je bestelling! (Betalen via Bancontact nog niet actief)");
+      if (cart.length === 0) {
+        alert('Je winkelwagen is leeg!');
+        return;
+      }
+      alert('Bedankt voor je bestelling! (Betaalfunctie nog niet geactiveerd)');
       cart = [];
       localStorage.setItem('cart', JSON.stringify(cart));
       renderCart();
     }
 
     renderCart();
+    [
+  {
+    "name": "Product 1",
+    "price": 12.99,
+    "quantity": 1,
+    "image": "https://via.placeholder.com/150"
+  },
+  {
+    "name": "Product 2",
+    "price": 8.50,
+    "quantity": 2,
+    "image": "https://via.placeholder.com/150"
+  }
+]
+
   </script>
 </body>
 </html>
+
