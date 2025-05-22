@@ -4,23 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stylist Avenue</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
+    body, html {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
+      scroll-behavior: smooth;
     }
-
     header {
-      background-color: #111;
+      background: url('images/bg1.jpg') center/cover fixed;
       color: white;
-      padding: 20px;
+      padding: 100px 20px;
       text-align: center;
-      font-size: 32px;
-      letter-spacing: 2px;
+      font-size: 42px;
     }
-
-    .shop {
+    nav {
+      background-color: #222;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #f0c040;
+    }
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 20px;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+    }
+    .shop, .page {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
@@ -28,31 +56,28 @@
       max-width: 1200px;
       margin: auto;
     }
-
     .item {
       background-color: white;
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
+      transform: translateY(40px);
+      opacity: 0;
+      transition: all 0.6s ease;
     }
-
+    .item.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
     .item img {
       width: 100%;
       height: 200px;
       object-fit: cover;
       border-radius: 8px;
     }
-
-    .item h3 {
-      margin: 10px 0;
-    }
-
-    .item p {
-      font-weight: bold;
-      color: #444;
-    }
-
+    .item h3 { margin: 10px 0; }
+    .item p { font-weight: bold; }
     .item button {
       background-color: black;
       color: white;
@@ -60,37 +85,110 @@
       border: none;
       margin-top: 10px;
       cursor: pointer;
-      transition: 0.3s;
       border-radius: 5px;
     }
-
-    .item button:hover {
-      background-color: #333;
+    #cart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      z-index: 10;
     }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
   <header>Stylist Avenue</header>
 
-  <div class="shop">
-    <div class="item">
-      <img src="images/shirt1.jpg" alt="Shirt 1">
-      <h3>Urban Tee</h3>
-      <p>€29.99</p>
-      <button>Add to Cart</button>
-    </div>
-    <div class="item">
-      <img src="images/hoodie1.jpg" alt="Hoodie 1">
-      <h3>Signature Hoodie</h3>
-      <p>€59.99</p>
-      <button>Add to Cart</button>
-    </div>
-    <div class="item">
-      <img src="images/cap1.jpg" alt="Cap 1">
-      <h3>Snapback Cap</h3>
-      <p>€19.99</p>
-      <button>Add to Cart</button>
-    </div>
+  <nav>
+    <a href="#shop" onclick="showPage('shop')">Shop</a>
+    <a href="#about" onclick="showPage('about')">About Us</a>
+    <a href="#contact" onclick="showPage('contact')">Contact</a>
+  </nav>
+
+  <div id="cart">
+    <strong>Cart:</strong> <span id="cart-count">0</span> items | <span id="cart-total">€0.00</span>
+    <br>
+    <button onclick="checkout()">Checkout</button>
   </div>
+
+  <section id="shop" style="background-image: url('images/bg2.jpg');">
+    <div class="shop">
+      <div class="item">
+        <img src="images/shirt1.jpg" alt="Shirt">
+        <h3>Urban Tee</h3>
+        <p>€29.99</p>
+        <button onclick="addToCart('Urban Tee', 29.99)">Add to Cart</button>
+      </div>
+      <div class="item">
+        <img src="images/hoodie1.jpg" alt="Hoodie">
+        <h3>Signature Hoodie</h3>
+        <p>€59.99</p>
+        <button onclick="addToCart('Signature Hoodie', 59.99)">Add to Cart</button>
+      </div>
+      <div class="item">
+        <img src="images/cap1.jpg" alt="Cap">
+        <h3>Snapback Cap</h3>
+        <p>€19.99</p>
+        <button onclick="addToCart('Snapback Cap', 19.99)">Add to Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="page hidden" style="background-image: url('images/bg3.jpg');">
+    <div style="grid-column: 1 / -1; text-align: center;">
+      <h2>About Us</h2>
+      <p>Stylist Avenue is your go-to destination for unique, street-inspired fashion. Our mission is to bring style, quality, and confidence to everyone, everywhere.</p>
+    </div>
+  </section>
+
+  <section id="contact" class="page hidden" style="background-image: url('images/bg4.jpg');">
+    <div style="grid-column: 1 / -1; text-align: center;">
+      <h2>Contact Us</h2>
+      <p>Email: support@stylistavenue.com</p>
+      <p>Instagram: @stylist.avenue</p>
+      <p>Phone: +32 456 789 123</p>
+    </div>
+  </section>
+
+  <script>
+    let cart = [];
+
+    function addToCart(product, price) {
+      cart.push({ product, price });
+      updateCart();
+    }
+
+    function updateCart() {
+      const count = cart.length;
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('cart-count').innerText = count;
+      document.getElementById('cart-total').innerText = `€${total.toFixed(2)}`;
+    }
+
+    function checkout() {
+      alert("Betaalmethode toevoegen zoals Stripe nodig om af te rekenen.");
+    }
+
+    function showPage(pageId) {
+      document.getElementById('shop').classList.add('hidden');
+      document.getElementById('about').classList.add('hidden');
+      document.getElementById('contact').classList.add('hidden');
+      document.getElementById(pageId).classList.remove('hidden');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.item').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
