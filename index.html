@@ -4,123 +4,168 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stylist Avenue</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    .scroll-fade {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease-out;
-    }
-    .scroll-fade.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    * { box-sizing: border-box; }
     body, html {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       scroll-behavior: smooth;
-      overflow-x: hidden;
       background-size: cover;
       background-position: center;
-      transition: background-image 2s ease-in-out;
+      transition: background-image 1.5s ease-in-out;
+      overflow-x: hidden;
+      color: #fff;
+      background-color: #222;
     }
     nav {
-      background-color: #222;
+      background: rgba(0,0,0,0.8);
+      position: sticky;
+      top: 0;
       display: flex;
       justify-content: center;
       gap: 30px;
       padding: 15px 0;
-      position: sticky;
-      top: 0;
-      z-index: 99;
+      z-index: 100;
     }
     nav a {
-      color: white;
+      color: #fff;
       text-decoration: none;
       font-weight: bold;
-      transition: color 0.3s;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
     }
     nav a:hover {
       color: #f0c040;
     }
+    #cart {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.9);
+      color: #222;
+      padding: 12px 18px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      font-weight: bold;
+      z-index: 110;
+      user-select: none;
+      min-width: 180px;
+    }
+    #cart button {
+      margin-top: 8px;
+      padding: 7px 14px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    #cart button:hover {
+      background-color: #0056b3;
+    }
     section {
       min-height: 100vh;
+      padding: 60px 20px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      padding: 60px 20px;
+      justify-content: center;
+      background: rgba(0,0,0,0.5);
+      margin-bottom: 40px;
+      border-radius: 15px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     .section-title {
-      font-size: 32px;
-      color: white;
-      background-color: rgba(0,0,0,0.5);
-      padding: 10px 20px;
-      border-radius: 8px;
+      font-size: 2.8rem;
       margin-bottom: 30px;
+      text-align: center;
+      color: #f0c040;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
     }
     .shop {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
       width: 100%;
     }
     .item {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #fff;
+      color: #222;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
       text-align: center;
-      transform: translateY(40px);
-      opacity: 0;
-      transition: all 0.6s ease;
-    }
-    .item.visible {
-      transform: translateY(0);
-      opacity: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .item img {
       width: 100%;
       height: 200px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 12px;
+      margin-bottom: 15px;
     }
-    .item h3 { margin: 10px 0; }
-    .item p { font-weight: bold; }
-    .item button {
-      background-color: black;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      margin-top: 10px;
-      cursor: pointer;
-      border-radius: 5px;
+    .item h3 {
+      margin: 0 0 10px 0;
     }
-    #cart {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      z-index: 10;
-      font-weight: bold;
+    .item p {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
     }
-    #cart button {
-      margin-top: 8px;
-      background-color: #007bff;
-      border: none;
-      color: white;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
+    .item .stock {
       font-weight: 600;
+      margin-bottom: 15px;
+      color: #555;
     }
-    #cart button:hover {
-      background-color: #0056b3;
+    .item button {
+      background-color: #222;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .item button:hover {
+      background-color: #f0c040;
+      color: #222;
+    }
+    /* About and Contact text styling */
+    .text-block {
+      background: rgba(255,255,255,0.9);
+      color: #222;
+      padding: 25px 30px;
+      border-radius: 15px;
+      max-width: 700px;
+      font-size: 1.15rem;
+      line-height: 1.5;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    }
+    a.social-img {
+      display: inline-block;
+      margin-top: 15px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    a.social-img img {
+      display: block;
+      width: 200px;
+      height: auto;
     }
   </style>
 </head>
@@ -134,112 +179,150 @@
   </nav>
 
   <div id="cart">
-    <strong>Winkelmandje:</strong> <span id="cart-count">0</span> items | <span id="cart-total">€0.00</span>
-    <br />
+    Items: <span id="cart-count">0</span> <br />
+    Totaal: €<span id="cart-total">0.00</span>
     <button onclick="checkout()">Afrekenen</button>
   </div>
 
   <section id="shop">
-    <div class="section-title">Shop Our Collection</div>
-    <div class="shop">
-      <div class="item" data-name="Urban Tee" data-price="29.99" data-image="images/shirt1.jpg">
-        <img src="images/shirt1.jpg" alt="Urban Tee" />
-        <h3>Urban Tee</h3>
-        <p>€29.99</p>
-        <button onclick="addToCart({name:'Urban Tee', price:29.99, image:'images/shirt1.jpg'})">Add to Cart</button>
-      </div>
-      <div class="item" data-name="Signature Hoodie" data-price="59.99" data-image="images/hoodie1.jpg">
-        <img src="images/hoodie1.jpg" alt="Signature Hoodie" />
-        <h3>Signature Hoodie</h3>
-        <p>€59.99</p>
-        <button onclick="addToCart({name:'Signature Hoodie', price:59.99, image:'images/hoodie1.jpg'})">Add to Cart</button>
-      </div>
-      <div class="item" data-name="Snapback Cap" data-price="19.99" data-image="images/cap1.jpg">
-        <img src="images/cap1.jpg" alt="Snapback Cap" />
-        <h3>Snapback Cap</h3>
-        <p>€19.99</p>
-        <button onclick="addToCart({name:'Snapback Cap', price:19.99, image:'images/cap1.jpg'})">Add to Cart</button>
-      </div>
+    <h2 class="section-title">Shop Our Collection</h2>
+    <div class="shop" id="product-list">
+      <!-- Producten worden hier geladen door JS -->
     </div>
   </section>
 
-  <section id="about" class="scroll-fade">
-    <div class="section-title">About Us</div>
-    <p style="color:white; max-width:700px; text-align:center; background-color:rgba(0,0,0,0.5); padding:20px; border-radius:10px;">
+  <section id="about">
+    <h2 class="section-title">About Us</h2>
+    <div class="text-block">
       Stylist Avenue is your go-to destination for unique, street-inspired fashion. Our mission is to bring style, quality, and confidence to everyone, everywhere.
-    </p>
+    </div>
   </section>
 
-  <section id="contact" class="scroll-fade">
-    <div class="section-title">Contact Us</div>
-    <p style="color:white; background-color:rgba(0,0,0,0.5); padding:20px; border-radius:10px;">
-      Email: support@stylistavenue.com<br />
-      <a href="https://www.instagram.com/stylist_avenue/" target="_blank" rel="noopener noreferrer">
-        <img src="images/jouwafbeelding.jpg" alt="Instagram" style="width:200px; border-radius:10px;" />
+  <section id="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="text-block">
+      Email: support@stylistavenue.com<br>
+      <a href="https://www.instagram.com/stylist_avenue/" target="_blank" class="social-img" aria-label="Instagram Stylist Avenue">
+        <img src="images/instagram.jpg" alt="Instagram Stylist Avenue" />
       </a>
-    </p>
+    </div>
   </section>
 
   <script>
-    // Laad winkelwagen uit localStorage of maak leeg
+    // Product data met stock en afbeelding
+    const products = [
+      { name: 'Urban Tee', price: 29.99, stock: 5, image: 'images/shirt1.jpg' },
+      { name: 'Signature Hoodie', price: 59.99, stock: 3, image: 'images/hoodie1.jpg' },
+      { name: 'Snapback Cap', price: 19.99, stock: 10, image: 'images/cap1.jpg' }
+    ];
+
+    // Winkelmand ophalen uit localStorage of lege array
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Update de cart display (aantal en totaal)
-    function updateCart() {
-      const count = cart.reduce((acc, item) => acc + item.quantity, 0);
-      const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-      document.getElementById('cart-count').innerText = count;
-      document.getElementById('cart-total').innerText = `€${total.toFixed(2)}`;
+    // Producten in de shop renderen
+    function renderProducts() {
+      const container = document.getElementById('product-list');
+      container.innerHTML = '';
+      products.forEach(prod => {
+        const div = document.createElement('div');
+        div.classList.add('item');
+        div.innerHTML = `
+          <img src="${prod.image}" alt="${prod.name}">
+          <h3>${prod.name}</h3>
+          <p>€${prod.price.toFixed(2)}</p>
+          <div class="stock">Voorraad: ${prod.stock}</div>
+          <button ${prod.stock === 0 ? 'disabled' : ''} aria-label="Voeg ${prod.name} toe aan winkelmand">
+            ${prod.stock === 0 ? 'Uitverkocht' : 'Toevoegen aan winkelmand'}
+          </button>
+        `;
+        const btn = div.querySelector('button');
+        btn.addEventListener('click', () => addToCart(prod.name));
+        container.appendChild(div);
+      });
     }
 
-    // Product toevoegen aan winkelwagen
-    function addToCart(product) {
-      // Kijk of product al in de cart zit
-      const existing = cart.find(item => item.name === product.name);
-      if (existing) {
-        existing.quantity++;
-      } else {
-        cart.push({...product, quantity: 1});
-      }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCart();
-      alert(`${product.name} is toegevoegd aan je winkelmand!`);
-    }
-
-    // Checkout functie (voorlopig alleen alert)
-    function checkout() {
-      if (cart.length === 0) {
-        alert("Je winkelmand is leeg!");
+    // Product toevoegen aan winkelmand, met voorraadcontrole
+    function addToCart(productName) {
+      const product = products.find(p => p.name === productName);
+      if (!product) {
+        alert('Product niet gevonden!');
         return;
       }
-      alert("Betaalmethode toevoegen zoals Stripe nodig om af te rekenen.");
+
+      const existing = cart.find(item => item.name === product.name);
+      if (existing) {
+        if (existing.quantity < product.stock) {
+          existing.quantity++;
+        } else {
+          alert(`Sorry, er zijn maar ${product.stock} stuks beschikbaar van ${product.name}.`);
+          return;
+        }
+      } else {
+        if (product.stock > 0) {
+          cart.push({ name: product.name, price: product.price, quantity: 1, stock: product.stock });
+        } else {
+          alert(`${product.name} is uitverkocht.`);
+          return;
+        }
+      }
+      saveCart();
+      alert(`${product.name} is toegevoegd aan je winkelmand!`);
+      updateCartUI();
     }
 
-    // Intersection Observer voor fade-in effecten
+    // Winkelmand in localStorage opslaan
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Winkelmand UI updaten
+    function updateCartUI() {
+      let count = 0;
+      let total = 0;
+      cart.forEach(item => {
+        count += item.quantity;
+        total += item.quantity * item.price;
+      });
+      document.getElementById('cart-count').innerText = count;
+      document.getElementById('cart-total').innerText = total.toFixed(2);
+    }
+
+    // Checkout knop - hier kun je betaalmethodes koppelen zoals Stripe etc.
+    function checkout() {
+      alert('Betaalmethode toevoegen zoals Stripe is nodig om af te rekenen.');
+    }
+
+    // IntersectionObserver voor fade-in animatie
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if(entry.isIntersecting) {
           entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.2 });
 
-    document.querySelectorAll('.item, .scroll-fade').forEach(el => observer.observe(el));
+    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
 
-    // Achtergrond afbeelding slider
-    const sectionBgImages = [
+    // Achtergrondafbeeldingen wisselen
+    const backgrounds = [
       'images/bg1.jpg',
       'images/bg2.jpg',
       'images/bg3.jpg'
     ];
-    let currentBg = 0;
-    setInterval(() => {
-      document.body.style.backgroundImage = `url('${sectionBgImages[currentBg]}')`;
-      currentBg = (currentBg + 1) % sectionBgImages.length;
-    }, 7000);
+    let bgIndex = 0;
+    function changeBackground() {
+      document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+      bgIndex = (bgIndex + 1) % backgrounds.length;
+    }
+    changeBackground();
+    setInterval(changeBackground, 8000);
 
-    // Update cart bij laden van de pagina
-    updateCart();
+    // Alles initialiseren
+    renderProducts();
+    updateCartUI();
+
   </script>
+
 </body>
 </html>
