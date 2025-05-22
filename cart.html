@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -46,31 +46,59 @@
     button:hover {
       background: #555;
     }
+    .total {
+      text-align: right;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+    .checkout {
+      text-align: right;
+    }
+    .checkout button {
+      background-color: #1e90ff;
+      font-size: 1rem;
+      padding: 10px 20px;
+    }
+    .checkout button:hover {
+      background-color: #0f75d1;
+    }
   </style>
 </head>
 <body>
   <h1>🛍️ Jouw Winkelmandje</h1>
   <div id="cart-container"></div>
+  <div class="total" id="cart-total"></div>
+  <div class="checkout" id="checkout-section"></div>
+
   <script>
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     function renderCart() {
       const container = document.getElementById('cart-container');
+      const totalEl = document.getElementById('cart-total');
+      const checkoutEl = document.getElementById('checkout-section');
       container.innerHTML = '';
+      totalEl.innerHTML = '';
+      checkoutEl.innerHTML = '';
 
       if (cart.length === 0) {
         container.innerHTML = '<p>Je winkelwagen is leeg.</p>';
         return;
       }
 
+      let total = 0;
+
       cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+
         const div = document.createElement('div');
         div.className = 'cart-item';
         div.innerHTML = `
           <img src="${item.image}" alt="${item.name}">
           <div class="info">
             <h3>${item.name}</h3>
-            <p>Prijs: €${item.price}</p>
+            <p>Prijs: €${item.price.toFixed(2)}</p>
             <p>Aantal: <input type="number" min="1" value="${item.quantity}" data-index="${index}" style="width: 50px;" /></p>
           </div>
           <div class="actions">
@@ -79,6 +107,9 @@
         `;
         container.appendChild(div);
       });
+
+      totalEl.innerHTML = `<strong>Totaal: €${total.toFixed(2)}</strong>`;
+      checkoutEl.innerHTML = `<button onclick="checkout()">Afrekenen</button>`;
 
       document.querySelectorAll('input[type="number"]').forEach(input => {
         input.addEventListener('change', (e) => {
@@ -92,6 +123,13 @@
 
     function removeItem(index) {
       cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function checkout() {
+      alert("Bedankt voor je bestelling! (Betalen via Bancontact nog niet actief)");
+      cart = [];
       localStorage.setItem('cart', JSON.stringify(cart));
       renderCart();
     }
