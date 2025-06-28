@@ -208,7 +208,43 @@
     </div>
   </section>
 
- <script>
+#product-detail-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    #product-detail-content {
+      background: white;
+      color: #222;
+      border-radius: 15px;
+      max-width: 600px;
+      width: 90%;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    #product-detail-content img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    #product-detail-content button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="product-detail-modal" style="display:none;">
+    <div id="product-detail-content"></div>
+  </div>
+
+  <script>
     const products = [
       { name: 'Barcelona Kit 24-25', price: 49.99, stock: 5, image: ['barca01.jpg', 'barca02.jpg', 'barca03.jpg'] },
       { name: 'Real Madrid Y-3 Kit', price: 49.99, stock: 5, image: ['madrid01.jpg', 'madrid02.jpg', 'madrid03.jpg'] },
@@ -228,7 +264,7 @@
         const div = document.createElement('div');
         div.classList.add('item');
         div.innerHTML = `
-          <img src="${imgSrc}" alt="${prod.name}">
+          <img src="${imgSrc}" alt="${prod.name}" style="cursor:pointer;">
           <h3>${prod.name}</h3>
           <p>€${prod.price.toFixed(2)}</p>
           <div class="stock">Voorraad: ${prod.stock}</div>
@@ -238,8 +274,38 @@
         `;
         const btn = div.querySelector('button');
         btn.addEventListener('click', () => addToCart(prod.name));
+
+        const img = div.querySelector('img');
+        img.addEventListener('click', () => showProductDetail(prod));
+
         container.appendChild(div);
       });
+    }
+
+    function showProductDetail(product) {
+      const modal = document.getElementById('product-detail-modal');
+      const content = document.getElementById('product-detail-content');
+      let imagesHtml = '';
+      if (Array.isArray(product.image)) {
+        product.image.forEach(img => {
+          imagesHtml += `<img src="${img}" alt="${product.name}">`;
+        });
+      } else {
+        imagesHtml = `<img src="${product.image}" alt="${product.name}">`;
+      }
+      content.innerHTML = `
+        <h2>${product.name}</h2>
+        ${imagesHtml}
+        <p>Prijs: €${product.price.toFixed(2)}</p>
+        <p>Voorraad: ${product.stock}</p>
+        <button onclick="addToCart('${product.name}')">Toevoegen aan winkelmand</button>
+        <button onclick="closeProductDetail()">Terug naar menu</button>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function closeProductDetail() {
+      document.getElementById('product-detail-modal').style.display = 'none';
     }
 
     function addToCart(productName) {
@@ -317,6 +383,5 @@
     updateCartUI();
 
   </script>
-
 </body>
 </html>
