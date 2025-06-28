@@ -208,29 +208,27 @@
     </div>
   </section>
 
-  <script>
-    // Product data met stock en afbeelding
+ <script>
     const products = [
-      { name: 'Barcelona Kit 24-25', price: 49.99, stock: 5, image: image: ['barca01.jpg', 'barca02.jpg', 'barca03.jpg'] },
+      { name: 'Barcelona Kit 24-25', price: 49.99, stock: 5, image: ['barca01.jpg', 'barca02.jpg', 'barca03.jpg'] },
       { name: 'Real Madrid Y-3 Kit', price: 49.99, stock: 5, image: ['madrid01.jpg', 'madrid02.jpg', 'madrid03.jpg'] },
-      { name: 'Real Madrid White Kit', price: 49.99, stock: 5, image: ['WMadrid01.jpg', 'WMadrid02.jpg']}
-       { name: 'Reef Volcano Parfum', price: 79.99, stock: 1, image: ['ReefVolcano.jpg', 'ReefVolcano02.jpg'] },
+      { name: 'Real Madrid White Kit', price: 49.99, stock: 5, image: ['WMadrid01.jpg', 'WMadrid02.jpg'] },
+      { name: 'Reef Volcano Parfum', price: 79.99, stock: 1, image: ['ReefVolcano.jpg', 'ReefVolcano02.jpg'] },
       { name: 'Reef 11 Parfum', price: 59.99, stock: 1, image: ['Reef11front.jpg', 'Reef11back.jpg'] },
-      { name: 'Snapback Cap', price: 19.99, stock: 10, image: 'images/cap1.jpg' }
+      { name: 'Snapback Cap', price: 19.99, stock: 10, image: ['images/cap1.jpg'] }
     ];
 
-    // Winkelmand ophalen uit localStorage of lege array
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Producten in de shop renderen
     function renderProducts() {
       const container = document.getElementById('product-list');
       container.innerHTML = '';
       products.forEach(prod => {
+        const imgSrc = Array.isArray(prod.image) ? prod.image[0] : prod.image;
         const div = document.createElement('div');
         div.classList.add('item');
         div.innerHTML = `
-          <img src="${prod.image}" alt="${prod.name}">
+          <img src="${imgSrc}" alt="${prod.name}">
           <h3>${prod.name}</h3>
           <p>€${prod.price.toFixed(2)}</p>
           <div class="stock">Voorraad: ${prod.stock}</div>
@@ -244,7 +242,6 @@
       });
     }
 
-    // Product toevoegen aan winkelmand, met voorraadcontrole
     function addToCart(productName) {
       const product = products.find(p => p.name === productName);
       if (!product) {
@@ -273,12 +270,10 @@
       updateCartUI();
     }
 
-    // Winkelmand in localStorage opslaan
     function saveCart() {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-    // Winkelmand UI updaten
     function updateCartUI() {
       let count = 0;
       let total = 0;
@@ -290,12 +285,10 @@
       document.getElementById('cart-total').innerText = total.toFixed(2);
     }
 
-    // Checkout knop - hier kun je betaalmethodes koppelen zoals Stripe etc.
     function checkout() {
       alert('Betaalmethode toevoegen zoals Stripe is nodig om af te rekenen.');
     }
 
-    // IntersectionObserver voor fade-in animatie
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if(entry.isIntersecting) {
@@ -307,7 +300,6 @@
 
     document.querySelectorAll('section').forEach(sec => observer.observe(sec));
 
-    // Achtergrondafbeeldingen wisselen
     const backgrounds = [
       'images/bg1.jpg',
       'images/bg2.jpg',
@@ -321,7 +313,6 @@
     changeBackground();
     setInterval(changeBackground, 8000);
 
-    // Alles initialiseren
     renderProducts();
     updateCartUI();
 
