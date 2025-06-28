@@ -5,18 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stylist Avenue</title>
   <style>
+    /* Algemene stijlen */
     body, html {
       margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       scroll-behavior: smooth;
+      background-image: url('images/background.jpg');
       background-size: cover;
-      background-position: center;
+      background-attachment: fixed;
+      background-position: center center;
       transition: background-image 1.5s ease-in-out;
       overflow-x: hidden;
       color: #fff;
-      background-color: #222;
+      background-color: #111;
     }
+    /* Nav balk */
     nav {
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       position: sticky;
       top: 0;
       display: flex;
@@ -24,6 +28,7 @@
       gap: 30px;
       padding: 15px 0;
       z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.7);
     }
     nav a {
       color: #fff;
@@ -33,26 +38,28 @@
       transition: color 0.3s ease;
     }
     nav a:hover {
-      color: #f0c040;
+      color: #00bfff;
     }
+    /* Winkelmandje */
     #cart {
       position: fixed;
       top: 15px;
       right: 15px;
-      background: rgba(255,255,255,0.9);
-      color: #222;
+      background: rgba(0,0,0,0.85);
+      color: #fff;
       padding: 12px 18px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 15px rgba(0,191,255,0.7);
       font-weight: bold;
       z-index: 110;
       user-select: none;
       min-width: 180px;
+      text-align: center;
     }
     #cart button {
       margin-top: 8px;
       padding: 7px 14px;
-      background-color: #007bff;
+      background-color: #00bfff;
       border: none;
       color: white;
       font-weight: bold;
@@ -62,8 +69,9 @@
       width: 100%;
     }
     #cart button:hover {
-      background-color: #0056b3;
+      background-color: #009acd;
     }
+    /* Secties */
     section {
       min-height: 100vh;
       padding: 60px 20px;
@@ -71,7 +79,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
       margin-bottom: 40px;
       border-radius: 15px;
       max-width: 1000px;
@@ -80,6 +88,7 @@
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 0.6s ease, transform 0.6s ease;
+      box-shadow: 0 0 25px rgba(0,191,255,0.5);
     }
     section.visible {
       opacity: 1;
@@ -89,25 +98,32 @@
       font-size: 2.8rem;
       margin-bottom: 30px;
       text-align: center;
-      color: #f0c040;
-      text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+      color: #00bfff;
+      text-shadow: 1px 1px 7px rgba(0,0,0,0.8);
     }
+    /* Shop grid */
     .shop {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 25px;
       width: 100%;
     }
+    /* Product items */
     .item {
-      background: #fff;
-      color: #222;
+      background: #111;
+      color: #fff;
       border-radius: 15px;
       padding: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      box-shadow: 0 0 20px rgba(0,191,255,0.6);
       text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: transform 0.3s ease;
+    }
+    .item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00bfff;
     }
     .item img {
       width: 100%;
@@ -115,6 +131,12 @@
       object-fit: cover;
       border-radius: 12px;
       margin-bottom: 15px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,191,255,0.5);
+      transition: box-shadow 0.3s ease;
+    }
+    .item img:hover {
+      box-shadow: 0 0 30px #00bfff;
     }
     .item h3 {
       margin: 0 0 10px 0;
@@ -127,10 +149,10 @@
     .item .stock {
       font-weight: 600;
       margin-bottom: 15px;
-      color: #555;
+      color: #66d9ff;
     }
     .item button {
-      background-color: #222;
+      background-color: #00bfff;
       color: white;
       border: none;
       padding: 12px;
@@ -140,32 +162,75 @@
       transition: background-color 0.3s ease;
     }
     .item button:hover {
-      background-color: #f0c040;
-      color: #222;
+      background-color: #009acd;
+      color: #fff;
     }
-    /* About and Contact text styling */
+    /* About en Contact blokken */
     .text-block {
-      background: rgba(255,255,255,0.9);
-      color: #222;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
       padding: 25px 30px;
       border-radius: 15px;
       max-width: 700px;
       font-size: 1.15rem;
       line-height: 1.5;
       text-align: center;
-      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      box-shadow: 0 0 20px rgba(0,191,255,0.5);
     }
     a.social-img {
       display: inline-block;
       margin-top: 15px;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      box-shadow: 0 0 15px rgba(0,191,255,0.6);
     }
     a.social-img img {
       display: block;
       width: 200px;
       height: auto;
+      filter: drop-shadow(0 0 5px #00bfff);
+    }
+    /* Modal product detail */
+    #product-detail-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    #product-detail-content {
+      background: #111;
+      color: #fff;
+      border-radius: 15px;
+      max-width: 600px;
+      width: 90%;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 30px #00bfff;
+    }
+    #product-detail-content img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 20px #00bfff;
+    }
+    #product-detail-content button {
+      margin-top: 10px;
+      background-color: #00bfff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #product-detail-content button:hover {
+      background-color: #009acd;
     }
   </style>
 </head>
@@ -208,180 +273,116 @@
     </div>
   </section>
 
-#product-detail-modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-    #product-detail-content {
-      background: white;
-      color: #222;
-      border-radius: 15px;
-      max-width: 600px;
-      width: 90%;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-    }
-    #product-detail-content img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-    #product-detail-content button {
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-
   <div id="product-detail-modal" style="display:none;">
     <div id="product-detail-content"></div>
   </div>
 
   <script>
+    // Voorbeeld producten
     const products = [
-      { name: 'Barcelona Kit 24-25', price: 49.99, stock: 5, image: ['barca01.jpg', 'barca02.jpg', 'barca03.jpg'] },
-      { name: 'Real Madrid Y-3 Kit', price: 49.99, stock: 5, image: ['madrid01.jpg', 'madrid02.jpg', 'madrid03.jpg'] },
-      { name: 'Real Madrid White Kit', price: 49.99, stock: 5, image: ['WMadrid01.jpg', 'WMadrid02.jpg'] },
-      { name: 'Reef Volcano Parfum', price: 79.99, stock: 1, image: ['ReefVolcano.jpg', 'ReefVolcano02.jpg'] },
-      { name: 'Reef 11 Parfum', price: 59.99, stock: 1, image: ['Reef11front.jpg', 'Reef11back.jpg'] },
-      { name: 'Snapback Cap', price: 19.99, stock: 10, image: ['images/cap1.jpg'] }
+      {id: 1, name: "Street Hoodie", price: 49.99, stock: 10, img: "images/hoodie1.jpg", desc: "Comfortabele en stijlvolle street hoodie."},
+      {id: 2, name: "Urban Jacket", price: 89.99, stock: 5, img: "images/jacket1.jpg", desc: "Stevige jas voor alle weersomstandigheden."},
+      {id: 3, name: "Sneakers Pro", price: 75.00, stock: 7, img: "images/sneakers1.jpg", desc: "Lichte en ademende sneakers."},
+      {id: 4, name: "Cargo Pants", price: 59.99, stock: 12, img: "images/pants1.jpg", desc: "Functionele cargo broek met veel zakken."},
+      {id: 5, name: "Beanie Cap", price: 15.00, stock: 20, img: "images/beanie1.jpg", desc: "Warme en trendy beanie."}
     ];
 
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // Winkelmandje data
+    let cart = [];
 
     function renderProducts() {
-      const container = document.getElementById('product-list');
-      container.innerHTML = '';
-      products.forEach(prod => {
-        const imgSrc = Array.isArray(prod.image) ? prod.image[0] : prod.image;
-        const div = document.createElement('div');
-        div.classList.add('item');
-        div.innerHTML = `
-          <img src="${imgSrc}" alt="${prod.name}" style="cursor:pointer;">
-          <h3>${prod.name}</h3>
-          <p>€${prod.price.toFixed(2)}</p>
-          <div class="stock">Voorraad: ${prod.stock}</div>
-          <button ${prod.stock === 0 ? 'disabled' : ''} aria-label="Voeg ${prod.name} toe aan winkelmand">
-            ${prod.stock === 0 ? 'Uitverkocht' : 'Toevoegen aan winkelmand'}
-          </button>
+      const list = document.getElementById('product-list');
+      list.innerHTML = '';
+      products.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'item';
+        item.innerHTML = `
+          <img src="${p.img}" alt="${p.name}" onclick="showDetail(${p.id})" />
+          <h3>${p.name}</h3>
+          <p>€${p.price.toFixed(2)}</p>
+          <div class="stock">Voorraad: ${p.stock}</div>
+          <button onclick="addToCart(${p.id})" ${p.stock===0 ? 'disabled' : ''}>Voeg toe</button>
         `;
-        const btn = div.querySelector('button');
-        btn.addEventListener('click', () => addToCart(prod.name));
-
-        const img = div.querySelector('img');
-        img.addEventListener('click', () => showProductDetail(prod));
-
-        container.appendChild(div);
+        list.appendChild(item);
       });
     }
 
-    function showProductDetail(product) {
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      if(!product || product.stock === 0) return alert('Product niet op voorraad');
+      const cartItem = cart.find(i => i.id === id);
+      if(cartItem) {
+        if(cartItem.qty < product.stock) {
+          cartItem.qty++;
+        } else {
+          alert('Geen voorraad meer beschikbaar');
+          return;
+        }
+      } else {
+        cart.push({id: id, qty: 1});
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      let totalItems = 0;
+      let totalPrice = 0;
+      cart.forEach(i => {
+        const p = products.find(pr => pr.id === i.id);
+        if(p) {
+          totalItems += i.qty;
+          totalPrice += p.price * i.qty;
+        }
+      });
+      document.getElementById('cart-count').textContent = totalItems;
+      document.getElementById('cart-total').textContent = totalPrice.toFixed(2);
+    }
+
+    function checkout() {
+      if(cart.length === 0) {
+        alert('Winkelmandje is leeg!');
+        return;
+      }
+      alert('Bedankt voor je aankoop! (Dit is een demo)');
+      cart = [];
+      updateCartUI();
+    }
+
+    function showDetail(id) {
+      const product = products.find(p => p.id === id);
+      if(!product) return;
       const modal = document.getElementById('product-detail-modal');
       const content = document.getElementById('product-detail-content');
-      let imagesHtml = '';
-      if (Array.isArray(product.image)) {
-        product.image.forEach(img => {
-          imagesHtml += `<img src="${img}" alt="${product.name}">`;
-        });
-      } else {
-        imagesHtml = `<img src="${product.image}" alt="${product.name}">`;
-      }
       content.innerHTML = `
         <h2>${product.name}</h2>
-        ${imagesHtml}
+        <img src="${product.img}" alt="${product.name}" />
+        <p>${product.desc}</p>
         <p>Prijs: €${product.price.toFixed(2)}</p>
-        <p>Voorraad: ${product.stock}</p>
-        <button onclick="addToCart('${product.name}')">Toevoegen aan winkelmand</button>
-        <button onclick="closeProductDetail()">Terug naar menu</button>
+        <button onclick="closeDetail()">Sluit</button>
       `;
       modal.style.display = 'flex';
     }
 
-    function closeProductDetail() {
+    function closeDetail() {
       document.getElementById('product-detail-modal').style.display = 'none';
     }
 
-    function addToCart(productName) {
-      const product = products.find(p => p.name === productName);
-      if (!product) {
-        alert('Product niet gevonden!');
-        return;
-      }
-
-      const existing = cart.find(item => item.name === product.name);
-      if (existing) {
-        if (existing.quantity < product.stock) {
-          existing.quantity++;
-        } else {
-          alert(`Sorry, er zijn maar ${product.stock} stuks beschikbaar van ${product.name}.`);
-          return;
-        }
-      } else {
-        if (product.stock > 0) {
-          cart.push({ name: product.name, price: product.price, quantity: 1, stock: product.stock });
-        } else {
-          alert(`${product.name} is uitverkocht.`);
-          return;
-        }
-      }
-      saveCart();
-      alert(`${product.name} is toegevoegd aan je winkelmand!`);
-      updateCartUI();
-    }
-
-    function saveCart() {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-
-    function updateCartUI() {
-      let count = 0;
-      let total = 0;
-      cart.forEach(item => {
-        count += item.quantity;
-        total += item.quantity * item.price;
-      });
-      document.getElementById('cart-count').innerText = count;
-      document.getElementById('cart-total').innerText = total.toFixed(2);
-    }
-
-    function checkout() {
-      alert('Betaalmethode toevoegen zoals Stripe is nodig om af te rekenen.');
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+    // Animatie voor secties zichtbaar maken bij scrollen
+    function handleScroll() {
+      document.querySelectorAll('section').forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 100) {
+          section.classList.add('visible');
         }
       });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
-
-    const backgrounds = [
-      'images/bg1.jpg',
-      'images/bg2.jpg',
-      'images/bg3.jpg'
-    ];
-    let bgIndex = 0;
-    function changeBackground() {
-      document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
-      bgIndex = (bgIndex + 1) % backgrounds.length;
     }
-    changeBackground();
-    setInterval(changeBackground, 8000);
 
-    renderProducts();
-    updateCartUI();
-
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', () => {
+      renderProducts();
+      handleScroll();
+    });
   </script>
+
 </body>
 </html>
