@@ -278,91 +278,45 @@
   </div>
 
   <script>
-    const products = [
-      { name: 'Barcelona Kit 24-25', price: 49.99, stock: 5, image: ['barca01.jpg', 'barca02.jpg', 'barca03.jpg'] },
-      { name: 'Real Madrid Y-3 Kit', price: 49.99, stock: 5, image: ['madrid01.jpg', 'madrid02.jpg', 'madrid03.jpg'] },
-      { name: 'Real Madrid White Kit', price: 49.99, stock: 5, image: ['WMadrid01.jpg', 'WMadrid02.jpg'] },
-      { name: 'Reef Volcano Parfum', price: 79.99, stock: 1, image: ['ReefVolcano.jpg', 'ReefVolcano02.jpg'] },
-      { name: 'Reef 11 Parfum', price: 59.99, stock: 1, image: ['Reef11front.jpg', 'Reef11back.jpg'] },
-      { name: 'Snapback Cap', price: 19.99, stock: 10, image: ['images/cap1.jpg'] }
-    ];
+const products = [
+  { id: 0, name: 'Barcelona Kit 24-25', price: 49.99, stock: 5, image: ['barca01.jpg', 'barca02.jpg', 'barca03.jpg'] },
+  { id: 1, name: 'Real Madrid Y-3 Kit', price: 49.99, stock: 5, image: ['madrid01.jpg', 'madrid02.jpg', 'madrid03.jpg'] },
+  { id: 2, name: 'Real Madrid White Kit', price: 49.99, stock: 5, image: ['WMadrid01.jpg', 'WMadrid02.jpg'] },
+  { id: 3, name: 'Reef Volcano Parfum', price: 79.99, stock: 1, image: ['ReefVolcano.jpg', 'ReefVolcano02.jpg'] },
+  { id: 4, name: 'Reef 11 Parfum', price: 59.99, stock: 1, image: ['Reef11front.jpg', 'Reef11back.jpg'] },
+  { id: 5, name: 'Snapback Cap', price: 19.99, stock: 10, image: ['images/cap1.jpg'] }
+];
 
-    // Winkelmandje data
-    let cart = [];
+function renderProducts() {
+  const list = document.getElementById('product-list');
+  list.innerHTML = '';
+  products.forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.innerHTML = `
+      <img src="${p.image[0]}" alt="${p.name}" onclick="showDetail(${p.id})" />
+      <h3>${p.name}</h3>
+      <p>€${p.price.toFixed(2)}</p>
+      <div class="stock">Voorraad: ${p.stock}</div>
+      <button onclick="addToCart(${p.id})" ${p.stock === 0 ? 'disabled' : ''}>Voeg toe</button>
+    `;
+    list.appendChild(item);
+  });
+}
 
-    function renderProducts() {
-      const list = document.getElementById('product-list');
-      list.innerHTML = '';
-      products.forEach(p => {
-        const item = document.createElement('div');
-        item.className = 'item';
-        item.innerHTML = `
-          <img src="${p.img}" alt="${p.name}" onclick="showDetail(${p.id})" />
-          <h3>${p.name}</h3>
-          <p>€${p.price.toFixed(2)}</p>
-          <div class="stock">Voorraad: ${p.stock}</div>
-          <button onclick="addToCart(${p.id})" ${p.stock===0 ? 'disabled' : ''}>Voeg toe</button>
-        `;
-        list.appendChild(item);
-      });
-    }
-
-    function addToCart(id) {
-      const product = products.find(p => p.id === id);
-      if(!product || product.stock === 0) return alert('Product niet op voorraad');
-      const cartItem = cart.find(i => i.id === id);
-      if(cartItem) {
-        if(cartItem.qty < product.stock) {
-          cartItem.qty++;
-        } else {
-          alert('Geen voorraad meer beschikbaar');
-          return;
-        }
-      } else {
-        cart.push({id: id, qty: 1});
-      }
-      updateCartUI();
-    }
-
-    function updateCartUI() {
-      let totalItems = 0;
-      let totalPrice = 0;
-      cart.forEach(i => {
-        const p = products.find(pr => pr.id === i.id);
-        if(p) {
-          totalItems += i.qty;
-          totalPrice += p.price * i.qty;
-        }
-      });
-      document.getElementById('cart-count').textContent = totalItems;
-      document.getElementById('cart-total').textContent = totalPrice.toFixed(2);
-    }
-
-    function checkout() {
-      if(cart.length === 0) {
-        alert('Winkelmandje is leeg!');
-        return;
-      }
-      alert('Bedankt voor je aankoop! (Dit is een demo)');
-      cart = [];
-      updateCartUI();
-    }
-
-    function showDetail(id) {
-      const product = products.find(p => p.id === id);
-      if(!product) return;
-      const modal = document.getElementById('product-detail-modal');
-      const content = document.getElementById('product-detail-content');
-      content.innerHTML = `
-        <h2>${product.name}</h2>
-        <img src="${product.img}" alt="${product.name}" />
-        <p>${product.desc}</p>
-        <p>Prijs: €${product.price.toFixed(2)}</p>
-        <button onclick="closeDetail()">Sluit</button>
-      `;
-      modal.style.display = 'flex';
-    }
-
+function showDetail(id) {
+  const product = products.find(p => p.id === id);
+  if(!product) return;
+  const modal = document.getElementById('product-detail-modal');
+  const content = document.getElementById('product-detail-content');
+  content.innerHTML = `
+    <h2>${product.name}</h2>
+    <img src="${product.image[0]}" alt="${product.name}" />
+    <p>Prijs: €${product.price.toFixed(2)}</p>
+    <button onclick="closeDetail()">Sluit</button>
+  `;
+  modal.style.display = 'flex';
+}
     function closeDetail() {
       document.getElementById('product-detail-modal').style.display = 'none';
     }
